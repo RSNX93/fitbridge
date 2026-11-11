@@ -1,0 +1,63 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "fitbridge",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-30",
+  "compatibility_flags": [
+    "global_fetch_strictly_public",
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "preview_urls": false,
+  "send_metrics": false,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "fitbridge",
+      "migrations_dir": "migrations","database_id": "c5064c16-923e-41b2-a28e-2845c69372ed"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV","id": "3e6fba3ff81f44dd89346813f5194ff8"
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "0 * * * *"
+    ]
+  },
+  "vars": {
+    "TIMEZONE": "UTC",
+    "PRIMARY_SOURCE": "com.fitbit.FitbitMobile",
+    "BIRTH_YEAR": "1993",
+    "GOOGLE_TOKEN_URL": "https://oauth2.googleapis.com/token",
+    "AUTH_MODE": "passkey"
+  },
+  "secrets": {
+    "required": [
+      "SETUP_CODE"
+    ]
+  },
+  "observability": {
+    "enabled": false
+  },
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "build": {
+    "command": "npm run build"
+  },
+  "ratelimits": [
+    {
+      "name": "AUTH_RATE_LIMIT",
+      "namespace_id": "44001",
+      "simple": {
+        "limit": 30,
+        "period": 60
+      }
+    }
+  ]
+}
